@@ -22,7 +22,7 @@ playerPos = [0, 0]
 
 angle = 0
 
-cameraElevation = 40
+cameraElevation = 50
 cameraLength = 100
 
 playerHeight = cameraElevation + (cameraLength / 2)
@@ -74,11 +74,18 @@ def relativeCoords(x, y, pos, angle):
 
 
 def perspectiveProjection(coords):
+
+    if not coords[1]:
+        return transformed((100000000000, 0))
+
     return transformed((nw * coords[0] / coords[1], 0))
 
 
 def pointHeight(point, absoluteHeight):
     z = math.sqrt((point[0]) ** 2 + (point[1]) ** 2)
+        
+    if z == 0:
+        return (HEIGHT / 2, -HEIGHT / 2)
 
     YUp = (nh * (absoluteHeight - (cameraElevation))) / (z * math.cos(math.atan2(point[0], point[1])))
     YDown = (nh * cameraElevation) / (z * math.cos(math.atan2(point[0], point[1])))
@@ -121,6 +128,28 @@ def generatePoints(p1, p2, absoluteHeight):
 
     hBound1 = p1[1] * math.tan((math.pi / 2) - hFOV / 2)
     hBound2 = p2[1] * math.tan((math.pi / 2) - hFOV / 2)
+    
+    p1Copy = p1
+    p2Copy = p2
+    
+   #if inter1 and inter1[1] > 0:
+   #    if p1[0] > hBound1:
+   #        p1 = inter1
+
+   #    elif p2[0] > hBound2:
+   #        p2 = inter1
+
+   #if inter2 and inter2[1] > 0:
+   #    if p1[0] < -hBound1:
+   #        p2 = inter2
+
+   #    elif p2[0] < -hBound2:
+   #        p1 = inter2
+
+   #if inter1 and inter1[1] <= 0 and inter2 and inter2[1] <= 0:
+   #    return None
+
+
     
     if (p1[0] > hBound1 and p2[0] > hBound2) or (p1[0] < -hBound1 and p2[0] < -hBound2):
         return None
