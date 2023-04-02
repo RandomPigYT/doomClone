@@ -32,8 +32,8 @@ cameraLength = 100
 playerHeight = cameraElevation + (cameraLength / 2)
 cameraCentre = cameraElevation
 
-playerSpeed = 100
-angularVel = math.pi / 4
+playerSpeed = 150
+angularVel = math.pi / 3
 
 hFOV = math.radians(90)
 vFOV = math.radians(60)
@@ -281,16 +281,16 @@ while running:
 
             stepSize = 1
 
-            xDiff = points[2][0] - points[0][0]
+            xDiff = int(points[2][0]) - int(points[0][0])
 
             if xDiff:
                 sign = xDiff / math.fabs(xDiff)
 
                 for j in range(
-                    int(math.fabs((points[2][0] - points[0][0]) / stepSize)) + 1
+                    int(math.fabs((xDiff) / stepSize)) + 1
                 ):
                     
-                    currentX = points[0][0] + (stepSize * j * sign)
+                    currentX = int(points[0][0]) + (stepSize * j * sign)
 
                     upperPoint = (currentX, lerp(points[0], points[2], currentX))
                     lowerPoint = (currentX, lerp(points[1], points[3], currentX))
